@@ -1,4 +1,6 @@
 import 'dart:html';
+import 'package:recipies/Image_Searched.dart';
+
 import 'My_favorites.dart';
 import 'Home.dart';
 import 'Search.dart';
@@ -48,10 +50,10 @@ class BottomSetting extends State<Page> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Colors.white,
           titleTextStyle: TextStyle(
               fontFamily: 'Sunflower',
-              fontSize: 20,
+              fontSize: 30,
               fontWeight: FontWeight.w700
               ),
           title: Text('모두 칼로리'),
@@ -86,5 +88,13 @@ class BottomSetting extends State<Page> {
         ),
       ),
     );
+  }
+  @override
+  void initState(){
+    super.initState();
+  }
+  @override
+  void disponse(){
+    super.dispose();
   }
 }
