@@ -36,7 +36,7 @@ class Image_Searched extends StatelessWidget {
               ),
             ],
           ),
-          body: Center(
+          body: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.fromLTRB(20, 20, 20, 60),
               child: Column(
@@ -83,52 +83,38 @@ class Image_Searched extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 40,
                           )),
+                      Text(
+                        '칼로리 : ???'
+                      ),
                       Container( // 추천레시피 5종 보여주는 공간
-
-                        height: 300,
-                        child: ListView.builder(
-                            padding: EdgeInsets.all(10),
-                            itemCount: recipe_name.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        height: 100,
+                        child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: [
+                             Flexible(child: Icon(Icons.image), flex: 2,),
+                             Flexible(
+                                flex: 7,
+                                child: TextButton(
+                                onPressed: (){},
+                                child: Text('레시피 이름'),
+                                ),
+                             ),
+                             Flexible(
+                               child: IconButton(
+                                  onPressed: (){},
+                                  icon: Icon(
+                                  Icons.favorite,
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Flexible(child: Icon(Icons.image), flex: 2,),
-                                    Flexible(
-                                      flex: 7,
-                                      child: TextButton(
-                                        onPressed: (){},
-                                        child: Text(recipe_name[index]),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: IconButton(
-                                        onPressed: (){
-                                          if (isfavorite[index]) {
-                                            isfavorite[index] = false;
-                                          }
-                                          else {
-                                            isfavorite[index] = true;
-                                          }
-                                        },
-                                        icon: Icon(
-                                          isfavorite[index] ? Icons.favorite : Icons.favorite_border,
-                                          color: isfavorite[index] ? Colors.red : null,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                        ),
-                      ),
+                             ),
+                           ],
+                         ),
+                       ),
                     ],
                   ),
                 ],
