@@ -1,14 +1,20 @@
-import 'dart:html';
-
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Image_Searched.dart';
+import 'package:image_picker/image_picker.dart';
 
-class Home extends StatelessWidget {
+
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  Homestate createState() => Homestate();
+}
+class Homestate extends State<Home> {
+  @override
   Widget build(BuildContext context) {
+    var images;
     List<String> recipe_name = <String>['recipe1','recipe2','recipe3','recipe4','recipe5'];
     List<bool> isfavorite = <bool>[true, false, false, true, true];
 
@@ -26,7 +32,7 @@ class Home extends StatelessWidget {
                 Center( // 사진 입력구간
                   child: Container(
                     margin: EdgeInsets.all(20),
-                    width: 300, height: 100, padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    width: double.infinity, height: 100, padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(50),
@@ -47,11 +53,16 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                            onPressed: (){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Image_Searched()));
-                            },// 이미지 업로드 구간
+                            onPressed: () async{
+                              var picker = ImagePicker();
+                              var image = await picker.pickImage(source: ImageSource.gallery);
+                              if(image != null){
+                                setState(() => images = File(image.path));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Image_Searched(images: images)));
+                              }
+                            },
                             icon: Icon(Icons.add))
                       ],
                     ),
@@ -62,17 +73,13 @@ class Home extends StatelessWidget {
                   children: [
                     Text('오늘의 추천 레시피'),
                     Container( // 추천레시피 5종 보여주는 공간
+                      width: double.infinity,
                       height: 300,
                       child: ListView.builder(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.all(5),
                           itemCount: recipe_name.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                ),
-                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -85,6 +92,7 @@ class Home extends StatelessWidget {
                                     ),
                                   ),
                                   Flexible(
+                                    flex: 1,
                                     child: IconButton(
                                       onPressed: (){
                                         if (isfavorite[index]) {
@@ -114,7 +122,4 @@ class Home extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

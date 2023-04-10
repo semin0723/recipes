@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:recipies/Image_Searched.dart';
+import 'Image_Searched.dart';
 
 import 'My_favorites.dart';
 import 'Home.dart';
@@ -84,7 +84,9 @@ class BottomSetting extends State<Page> {
           selectedItemColor: Colors.greenAccent,
           unselectedItemColor: Colors.black,
           showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
           onTap: Tapped,
+
         ),
       ),
     );

@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'Home.dart';
+
 
 class Image_Searched extends StatelessWidget {
-  const Image_Searched({Key? key}) : super(key: key);
-
+  const Image_Searched({Key? key, required this.images}) : super(key: key);
+  final images;
   @override
   Widget build(BuildContext context) {
     List<String> recipe_name = <String>['recipe1','recipe2','recipe3','recipe4','recipe5'];
@@ -54,7 +57,7 @@ class Image_Searched extends StatelessWidget {
                         Flexible(
                           flex: 5,
                           child:
-                            Image.asset('Images/testimage.jpg'),
+                            Image.file(images),
                         ),
                         Flexible(
                           flex: 5,
@@ -64,7 +67,9 @@ class Image_Searched extends StatelessWidget {
                                 children: [
                                   Text('찾으신 레시피가 맞으신가요?'),
                                   TextButton(
-                                     onPressed: (){},
+                                     onPressed: (){
+                                       Navigator.pop(context);
+                                     },
                                      child: Text('다시 검색')
                                     ),
                                   ],
@@ -82,16 +87,10 @@ class Image_Searched extends StatelessWidget {
                           '사진 검색 결과',
                           style: TextStyle(
                             fontSize: 40,
-                          )),
-                      Text(
-                        '칼로리 : ???'
+                          )
                       ),
-                      Container( // 추천레시피 5종 보여주는 공간
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                        ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
                         height: 100,
                         child: Row(
                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,18 +98,32 @@ class Image_Searched extends StatelessWidget {
                              Flexible(child: Icon(Icons.image), flex: 2,),
                              Flexible(
                                 flex: 7,
-                                child: TextButton(
-                                onPressed: (){},
-                                child: Text('레시피 이름'),
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      TextButton(
+                                        onPressed: (){},
+                                        child: Text(
+                                            '레시피 이름',
+                                            style: TextStyle(
+                                              fontSize: 20
+                                            )
+                                        ),
+                                      ),
+                                      Text('칼로리 : ???'),
+                                    ],
+                                  ),
                                 ),
                              ),
                              Flexible(
+                               flex: 1,
                                child: IconButton(
-                                  onPressed: (){},
-                                  icon: Icon(
-                                  Icons.favorite,
-                                  ),
-                                ),
+                                 onPressed: (){}, // 서버와 연동 되는 즐찾 기능
+                                 icon: Icon(
+                                   Icons.favorite,
+                                   color: Colors.red,
+                                 ),
+                               ),
                              ),
                            ],
                          ),
@@ -126,3 +139,4 @@ class Image_Searched extends StatelessWidget {
     );
   }
 }
+
