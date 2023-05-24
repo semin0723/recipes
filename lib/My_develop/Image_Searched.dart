@@ -57,7 +57,7 @@ class Image_Searched extends StatelessWidget {
                         Flexible(
                           flex: 5,
                           child:
-                            Image.file(images),
+                            Image.file(File(images)),
                         ),
                         Flexible(
                           flex: 5,

@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'Image_Searched.dart';
 
 import 'My_favorites.dart';
@@ -73,7 +72,7 @@ class BottomSetting extends State<Page> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                label: '레시피검색'
+                label: '사진검색'
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person),

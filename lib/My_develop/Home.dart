@@ -1,19 +1,66 @@
 import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Image_Searched.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  Homestate createState() => Homestate();
+  _Homestate createState() => _Homestate();
 }
-class Homestate extends State<Home> {
+class _Homestate extends State<Home> {
   @override
+
+  late Future<void>? _initializeControllerFuture;
+  late CameraController _controller;
+
+  Future<void> _initializeCamera() async{
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    late CameraController _controller = CameraController(firstCamera, ResolutionPreset.medium);
+    late Future<void> _initializeControllerFuture = _controller.initialize();
+    await _initializeControllerFuture;
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _initializeControllerFuture = _initializeCamera();
+  }
+
+  @override
+  void disponse(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _takePhoto() async{
+    try {
+      await _initializeControllerFuture;
+      final image = await _controller.takePicture();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Image_Searched(images: image.path)
+        ),
+      );
+    }
+    catch(e){
+      print("Error : $e");
+    }
+  }
+
   Widget build(BuildContext context) {
+
+
+
     var images;
     List<String> recipe_name = <String>['recipe1','recipe2','recipe3','recipe4','recipe5'];
     List<bool> isfavorite = <bool>[true, false, false, true, true];
@@ -52,18 +99,48 @@ class Homestate extends State<Home> {
                             color: Colors.black,
                           ),
                         ),
-                        IconButton(
-                            onPressed: () async{
-                              var picker = ImagePicker();
-                              var image = await picker.pickImage(source: ImageSource.gallery);
-                              if(image != null){
-                                setState(() => images = File(image.path));
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Image_Searched(images: images)));
-                              }
-                            },
-                            icon: Icon(Icons.add))
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () async{
+                                  var picker = ImagePicker();
+                                  var image = await picker.pickImage(source: ImageSource.gallery);
+                                  if(image != null){
+                                    setState(() => images = File(image.path));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Image_Searched(images: images)));
+                                  }
+                                },
+                                icon: Icon(Icons.add)),
+                            IconButton(
+                                icon: Icon(Icons.camera),
+                              /*FutureBuilder<void>(
+                                  future: _initializeControllerFuture,
+                                    builder: (context, snapshot){
+                                      if(snapshot.connectionState == ConnectionState.done){
+                                        return Icon(Icons.camera);
+                                      }
+                                      else{
+                                        return CircularProgressIndicator();
+                                      }
+                                    },
+                                ),*/
+                                onPressed: () async{
+                                  var picker = ImagePicker();
+                                  var image = await picker.pickImage(source: ImageSource.camera);
+                                  if(image != null){
+                                    setState(() => images = File(image.path));
+                                    disponse();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Image_Searched(images: images)));
+                                  }
+                                },
+                            )
+                          ],
+                        )
+                        
                       ],
                     ),
                   ),
@@ -123,3 +200,5 @@ class Homestate extends State<Home> {
     );
   }
 }
+
+
