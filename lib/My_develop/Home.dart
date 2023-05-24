@@ -115,6 +115,7 @@ class _Homestate extends State<Home> {
                                 icon: Icon(Icons.add)),
                             IconButton(
                                 icon: Icon(Icons.camera),
+                              // imagePicker 랑 cameracontroller 둘다 시도중인데 카메라로 실시간 촬영이 잘 안됨 해결방안 계속 찾아야할듯.
                               /*FutureBuilder<void>(
                                   future: _initializeControllerFuture,
                                     builder: (context, snapshot){
